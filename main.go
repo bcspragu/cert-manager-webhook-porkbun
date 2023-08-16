@@ -98,14 +98,22 @@ func (p *porkbunDNSProviderSolver) Present(ch *v1alpha1.ChallengeRequest) error 
 	subDomain := getSubDomain(domain, ch.ResolvedFQDN)
 	target := ch.Key
 
-	recordsResp, err := pbClient.RetrieveDNSRecordsByDomain(ctx, domain)
+	recordsResp, err := pbClient.RetrieveDNSRecordsByDomainSubdomainType(ctx, domain, subDomain, "TXT")
 	if err != nil {
 		return fmt.Errorf("failed to get DNS records: %w", err)
 	}
 	if recordsResp.Status != "SUCCESS" {
 		return fmt.Errorf("invalid status %q loading DNS records", recordsResp.Status)
 	}
-	fmt.Printf("retrieved %d records\n", len(recordsResp.Records))
+
+	for _, rec := range recordsResp.Records {
+		if rec.Content != target {
+			continue
+		}
+		// The record already exists, just return.
+		fmt.Printf("record %s.%s IN TXT already exists, returning\n", subDomain, domain)
+		return nil
+	}
 
 	createResp, err := pbClient.CreateDNSRecord(ctx, domain, &porkbun.NewDNSRecord{
 		Name:    subDomain,
@@ -113,6 +121,9 @@ func (p *porkbunDNSProviderSolver) Present(ch *v1alpha1.ChallengeRequest) error 
 		Content: target,
 		TTL:     "60",
 	})
+	if err != nil {
+		return fmt.Errorf("failed to create DNS record: %w", err)
+	}
 	if createResp.Status != "SUCCESS" {
 		return fmt.Errorf("invalid status %q creating DNS record", createResp.Status)
 	}

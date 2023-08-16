@@ -134,7 +134,7 @@ type CreateDNSRecordRequest struct {
 
 type CreateDNSRecordResponse struct {
 	Status string `json:"status"`
-	ID     string `json:"id"`
+	ID     int    `json:"id"`
 }
 
 func (c *Client) CreateDNSRecord(ctx context.Context, domain string, record *NewDNSRecord) (*CreateDNSRecordResponse, error) {

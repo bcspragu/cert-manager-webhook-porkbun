@@ -1,0 +1,10 @@
+{
+  "apiKey": {
+      "Name": "porkbun-credentials",
+      "Key": "apiKey"
+  },
+  "secretApiKey": {
+      "Name": "porkbun-credentials",
+      "Key": "secretApiKey"
+  }
+}
