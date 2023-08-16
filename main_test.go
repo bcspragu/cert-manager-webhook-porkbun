@@ -4,9 +4,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/cert-manager/cert-manager/test/acme/dns"
+	dns "github.com/cert-manager/cert-manager/test/acme"
 
-	"github.com/cert-manager/webhook-example/example"
+	"github.com/bcspragu/cert-manager-webhook-porkbun/example"
 )
 
 var (
@@ -37,5 +37,4 @@ func TestRunsSuite(t *testing.T) {
 	//fixture.RunConformance(t)
 	fixture.RunBasic(t)
 	fixture.RunExtended(t)
-
 }
