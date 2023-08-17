@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: porkbun
+  namespace: cert-manager
+  labels:
+    app: porkbun
+    release: porkbun-v0.0.1
+    heritage: porkbun
+spec:
+  type: ClusterIP
+  ports:
+    - port: 443
+      targetPort: https
+      protocol: TCP
+      name: https
+  selector:
+    app: porkbun
+    release: porkbun-v0.0.1

@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: porkbun
+  namespace: cert-manager
+  labels:
+    app: porkbun
+    release: porkbun-v0.0.1
+    heritage: porkbun
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: porkbun
+      release: porkbun-v0.0.1
+  template:
+    metadata:
+      labels:
+        app: porkbun
+        release: porkbun-v0.0.1
+    spec:
+      serviceAccountName: porkbun
+      containers:
+        - name: porkbun
+          # TODO
+          image: mycompany/webhook-image:latest
+          imagePullPolicy: IfNotPresent
+          args:
+            - --tls-cert-file=/tls/tls.crt
+            - --tls-private-key-file=/tls/tls.key
+          env:
+            - name: GROUP_NAME
+              value: porkbun
+          ports:
+            - name: https
+              containerPort: 443
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              scheme: HTTPS
+              path: /healthz
+              port: https
+          readinessProbe:
+            httpGet:
+              scheme: HTTPS
+              path: /healthz
+              port: https
+          volumeMounts:
+            - name: certs
+              mountPath: /tls
+              readOnly: true
+      volumes:
+        - name: certs
+          secret:
+            secretName: porkbun-webhook-tls
