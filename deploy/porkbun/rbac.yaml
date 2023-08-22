@@ -61,7 +61,7 @@ metadata:
     heritage: porkbun
 rules:
   - apiGroups:
-      - porkbun
+      - porkbun.cert-manager.io
     resources:
       - '*'
     verbs:

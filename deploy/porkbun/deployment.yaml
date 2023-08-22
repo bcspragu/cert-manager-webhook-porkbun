@@ -22,15 +22,14 @@ spec:
       serviceAccountName: porkbun
       containers:
         - name: porkbun
-          # TODO
-          image: mycompany/webhook-image:latest
+          image: 192.168.5.3:5000/cert-manager-webhook-porkbun:latest
           imagePullPolicy: IfNotPresent
           args:
             - --tls-cert-file=/tls/tls.crt
             - --tls-private-key-file=/tls/tls.key
           env:
             - name: GROUP_NAME
-              value: porkbun
+              value: porkbun.cert-manager.io
           ports:
             - name: https
               containerPort: 443

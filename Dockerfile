@@ -1,3 +1,4 @@
+# docker build -t 192.168.5.3:5000/cert-manager-webhook-porkbun .
 FROM golang:1.21-alpine3.18 AS build_deps
 
 RUN apk add --no-cache git

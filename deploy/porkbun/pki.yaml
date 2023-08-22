@@ -29,7 +29,7 @@ spec:
   secretName: porkbun-ca
   duration: 43800h # 5y
   issuerRef:
-    name: porkbun-self-sign
+    name: porkbun-selfsign
   commonName: "ca.porkbun.cert-manager"
   isCA: true
 
