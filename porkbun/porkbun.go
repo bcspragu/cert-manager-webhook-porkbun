@@ -18,7 +18,7 @@ type Client struct {
 	http         *http.Client
 }
 
-const baseURL = "https://porkbun.com/api/json/v3/"
+const baseURL = "https://api.porkbun.com/api/json/v3/"
 
 func New(secretAPIKey, apiKey string) *Client {
 	return &Client{
