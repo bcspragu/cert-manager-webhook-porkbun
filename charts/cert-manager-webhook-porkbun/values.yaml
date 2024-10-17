@@ -1,0 +1,46 @@
+groupName: porkbun.talinx.dev
+
+certManager:
+  namespace: cert-manager
+  serviceAccountName: cert-manager
+
+image:
+  repository: talinx/cert-manager-webhook-porkbun
+  tag: latest
+  pullPolicy: IfNotPresent
+
+replicaCount: 1
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext: {}
+
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 443
+
+resources: {}
+
+livenessProbe:
+  httpGet:
+    scheme: HTTPS
+    path: /healthz
+    port: https
+readinessProbe:
+  httpGet:
+    scheme: HTTPS
+    path: /healthz
+    port: https
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
